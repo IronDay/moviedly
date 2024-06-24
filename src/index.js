@@ -12,7 +12,7 @@ app.get("/", (req, res) => {
 app.listen(PORT, "0.0.0.0", () => {
     console.log(`Listening on port ${PORT}...`);
     if (app.get('env') === 'production') {
-        console.log('DB_PASSWORD:', process.env.DB_PASSWORD);
+        console.log('DB_PASSWORD:', process.env.APP_PASSWORD);
     }
 
     if(app.get('env') === 'development') {
