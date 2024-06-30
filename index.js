@@ -32,6 +32,6 @@ app.listen(PORT, "0.0.0.0", () => {
     }
 
     if (app.get('env') === 'development') {
-        console.log('AP_PASSWORD: ', process.env.APP_PASSWORD);
+        console.log('MONGO URL: ', process.env.MONGO_URL);
     }
 });
