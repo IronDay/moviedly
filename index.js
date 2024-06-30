@@ -4,7 +4,7 @@ import homeRoutes from "./middlewares/home.js";
 import mongoose from "mongoose";
 
 const PORT = process.env.PORT || 3000;
-const MONGO_URL = process.env.MONGO_URL
+const MONGO_URL = process.env.MONGO_PRIVATE_URL
 
 console.log("Mongo URL ", MONGO_URL);
 
