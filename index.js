@@ -14,7 +14,7 @@ console.log("Mongo URL ", MONGO_URL);
 
 const app = express();
 
-mongoose.connect(`mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_URL} || "mongodb://localhost:27017/moviedly"}`)
+mongoose.connect(`${MONGO_URL} || "mongodb://localhost:27017/moviedly"}`)
     .then(() => {
         console.log("Connected to MongoDB...");
     })
