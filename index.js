@@ -1,10 +1,17 @@
 import express from 'express';
 import genresRoutes from "./routes/genres.js";
 import homeRoutes from "./middlewares/home.js";
+import mongoose from "mongoose";
 
 const PORT = process.env.PORT || 3000;
 
 const app = express();
+
+mongoose.connect("mongodb://localhost:27017/moviedly")
+    .then(() => {
+        console.log("Connected to MongoDB...");
+    })
+    .catch(err => console.error("Could not connect to MongoDB...", err));
 
 app.use(express.json());
 app.get("/", homeRoutes);
