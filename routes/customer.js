@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import express from "express";
+import Joi from "joi";
 
 const customerSchema = new mongoose.Schema({
     isGold: {type: Boolean, default: false},
@@ -16,3 +17,12 @@ customerRouter.get("/", async (req, res) => {
     res.status(200).send(customers);
 })
 
+const validateCustomer = (customer) => {
+    const customerValidationSchema = Joi.object({
+        isGold: Joi.boolean().optional(),
+        name: Joi.string().required().min(5).max(50),
+        phone: Joi.string().max(10)
+    });
+
+    return customerValidationSchema.validate(customer);
+}
