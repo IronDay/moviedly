@@ -7,6 +7,8 @@ const CustomerSchema = new mongoose.Schema({
     phone: {type: String, min: 5, max: 50, required: true}
 });
 
+const CustomerModel = mongoose.model("Customer", CustomerSchema);
+
 const validateCustomer = (customer) => {
     const customerValidationSchema = Joi.object({
         isGold: Joi.boolean().optional(),
@@ -17,4 +19,4 @@ const validateCustomer = (customer) => {
     return customerValidationSchema.validate(customer);
 }
 
-export {CustomerSchema as Customer, validateCustomer as validate};
+export {CustomerModel as Customer, validateCustomer as validate};
