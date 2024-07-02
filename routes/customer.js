@@ -4,8 +4,8 @@ import Joi from "joi";
 
 const customerSchema = new mongoose.Schema({
     isGold: {type: Boolean, default: false},
-    name: {type: String, min: 5, max: 20},
-    phone: {type: String}
+    name: {type: String, min: 5, max: 50, required: true},
+    phone: {type: String, min: 5, max: 50, required: true}
 });
 
 const Customer = mongoose.model("Customer", customerSchema);
@@ -52,7 +52,7 @@ const validateCustomer = (customer) => {
     const customerValidationSchema = Joi.object({
         isGold: Joi.boolean().optional(),
         name: Joi.string().required().min(5).max(50),
-        phone: Joi.string().max(10)
+        phone: Joi.string().required().max(50)
     });
 
     return customerValidationSchema.validate(customer);
