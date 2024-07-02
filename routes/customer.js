@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-import {Customer, validate} from "../models/customer.js";
+import {Customer, validate} from "../models/customers.js";
 
 
 const CustomerModel = mongoose.model("Customer", Customer);

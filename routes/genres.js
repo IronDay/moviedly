@@ -1,12 +1,8 @@
 import express from "express";
-import mongoose from "mongoose";
-import Joi from "joi";
+import {Genre, validate} from "../models/genres.js";
 
 const genresRoutes = express.Router();
 
-const Genre = mongoose.model("Genre", new mongoose.Schema({
-    name: {type: String, required: true, minlength: 3, maxlength: 50}
-}));
 
 /*const genreCount = await Genre.find({}).size();
 if (genreCount === 0) {
@@ -41,7 +37,7 @@ genresRoutes.get("/:id", (req, res) => {
 });
 
 genresRoutes.post("/", (req, res) => {
-    const {error} = validateGenre(req.body);
+    const {error} = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
     const genre = new Genre(req.body);
@@ -55,7 +51,7 @@ genresRoutes.post("/", (req, res) => {
 });
 
 genresRoutes.put("/:id", (req, res) => {
-    const {error} = validateGenre(req.body);
+    const {error} = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
     Genre.findByIdAndUpdate({_id: req.params.id}, {
@@ -70,24 +66,8 @@ genresRoutes.put("/:id", (req, res) => {
 });
 
 genresRoutes.delete("/:id", (req, res) => {
-    /* const genre = genres.find(g => g.id === parseInt(req.params.id));
-
-     if (!genre) return res.status(404).send("Genre not found");
-
-     const index = genres.indexOf(genre);
-     genres.splice(index, 1);
-     res.send(genre);*/
     Genre.findByIdAndDelete({_id: req.params.id}).then((result) => res.send(result))
         .catch((error) => res.status(400).send(error));
 });
-
-const validateGenre = (genre) => {
-    const schema = Joi.object({
-        /* id: Joi.number().optional(),*/
-        name: Joi.string().min(5).max(50).required()
-    });
-
-    return schema.validate(genre);
-}
 
 export default genresRoutes;
