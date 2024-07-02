@@ -17,15 +17,35 @@ customerRouter.get("/", async (req, res) => {
     res.status(200).send(customers);
 });
 
-customerRouter.post("/",async (req,res)=>{
+customerRouter.post("/", async (req, res) => {
     const customer = req.body;
     const {error} = validateCustomer(customer);
 
-    if(error) return res.status(400).send(error.message);
+    if (error) return res.status(400).send(error.message);
     const c = new Customer(customer);
     const savedCustomer = await c.save();
 
     return res.status(201).send(savedCustomer);
+});
+
+customerRouter.put("/:id", (req, res) => {
+    const {error} = validateCustomer(req.body);
+    if (error) return res.status(400).send(error.message);
+
+    Customer.findByIdAndUpdate({_id: req.params.id}, {
+        $set: {
+            ...req.body
+        }
+    }, {new: true}).then(result => {
+        res.status(200).send(result);
+    }).catch(err => {
+        res.status(400).send(err.message);
+    });
+});
+
+customerRouter.delete("/:id", (req, res) => {
+    Customer.findByIdAndDelete({_id: req.params.id}).then((result) = res.send(result))
+        .catch((err) => res.send(err));
 })
 
 const validateCustomer = (customer) => {
@@ -37,3 +57,5 @@ const validateCustomer = (customer) => {
 
     return customerValidationSchema.validate(customer);
 }
+
+export default customerRouter;
