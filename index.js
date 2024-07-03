@@ -2,7 +2,8 @@ import express from 'express';
 import genresRoutes from "./routes/genres.js";
 import homeRoutes from "./middlewares/home.js";
 import mongoose from "mongoose";
-import customerRouter from "./routes/customer.js";
+import customerRoute from "./routes/customer.js";
+import moviesRoutes from "./routes/movies.js";
 
 const PORT = process.env.PORT || 3000;
 const MONGO_URL = process.env.MONGO_URL
@@ -18,8 +19,8 @@ mongoose.connect(`${MONGO_URL}`)
 app.use(express.json());
 app.get("/", homeRoutes);
 app.use("/api/genres", genresRoutes);
-app.use("/api/customers",customerRouter);
-
+app.use("/api/customers",customerRoute);
+app.use("/api/movies",moviesRoutes)
 
 app.listen(PORT, "0.0.0.0", () => {
     console.log(`Listening on port ${PORT}...`);
