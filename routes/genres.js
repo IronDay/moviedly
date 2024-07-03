@@ -3,27 +3,6 @@ import {Genre, validate} from "../models/genres.js";
 
 const genresRoutes = express.Router();
 
-
-/*const genreCount = await Genre.find({}).size();
-if (genreCount === 0) {
-    Genre.find({}).then((result) => {
-        if (result.length === 0)
-            Genre.insertMany([
-                {name: "Action"},
-                {name: "Horror"},
-                {name: "Comedy"},
-                {name: "Drama"},
-                {name: "Thriller"},
-                {name: "Romance"},
-                {name: "Sci-Fi"},
-                {name: "Fantasy"},
-                {name: "Mystery"},
-                {name: "Documentary"}]
-            );
-    })
-}*/
-
-
 genresRoutes.get("/", (req, res) => {
     Genre.find({})
         .sort({name: 1})
