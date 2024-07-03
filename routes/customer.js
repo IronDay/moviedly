@@ -1,9 +1,5 @@
 import express from "express";
-import mongoose from "mongoose";
 import {Customer, validate} from "../models/customers.js";
-
-
-const CustomerModel = mongoose.model("Customer", Customer);
 
 const customerRouter = express.Router();
 
@@ -17,7 +13,7 @@ customerRouter.post("/", async (req, res) => {
     const {error} = validate(customer);
 
     if (error) return res.status(400).send(error.message);
-    const c = new CustomerModel(customer);
+    const c = new Customer(customer);
     const savedCustomer = await c.save();
 
     return res.status(201).send(savedCustomer);
@@ -27,7 +23,7 @@ customerRouter.put("/:id", (req, res) => {
     const {error} = validate(req.body);
     if (error) return res.status(400).send(error.message);
 
-    CustomerModel.findByIdAndUpdate({_id: req.params.id}, {
+    Customer.findByIdAndUpdate({_id: req.params.id}, {
         $set: {
             ...req.body
         }
@@ -39,7 +35,7 @@ customerRouter.put("/:id", (req, res) => {
 });
 
 customerRouter.delete("/:id", (req, res) => {
-    CustomerModel.findByIdAndDelete({_id: req.params.id}).then((result) = res.send(result))
+    Customer.findByIdAndDelete({_id: req.params.id}).then((result) = res.send(result))
         .catch((err) => res.send(err));
 })
 
