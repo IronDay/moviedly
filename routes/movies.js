@@ -8,4 +8,14 @@ moviesRoutes.get("/", async (req, res) => {
     return res.send(movies);
 });
 
+moviesRoutes.post("/", async (req, res) => {
+    const {body} = req;
+    const {error} = validate(body);
+    if (error) return res.status(400).send(error);
+
+    const movie = new Movie(body);
+    res.status(201).send(await movie.save())
+})
+
+
 export default moviesRoutes;
