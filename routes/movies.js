@@ -13,9 +13,22 @@ moviesRoutes.post("/", async (req, res) => {
     const {error} = validate(body);
     if (error) return res.status(400).send(error);
 
-    const movie = new Movie(body);
-    res.status(201).send(await movie.save())
+    let movie = new Movie(body);
+    movie = await movie.save();
+    res.status(201).send(movie)
 })
 
+moviesRoutes.put(":/id", async (req, res) => {
+    const {error} = validate(req.body);
+    if (error) return res.status(400).send(error);
+
+    Movie.findByIdAndUpdate({_id: req.params.id}, {
+        $set: {
+            ...req.body
+        }
+    }, {new: true})
+        .then((result) => res.send(result))
+        .catch((error) => res.status(400).send(error.message));
+})
 
 export default moviesRoutes;
