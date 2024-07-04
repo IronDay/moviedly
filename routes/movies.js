@@ -8,6 +8,12 @@ moviesRoutes.get("/", async (req, res) => {
     return res.send(movies);
 });
 
+moviesRoutes.get("/:id", (req, res) => {
+    Movie.findById(req.params.id)
+        .then((movie) => res.send(movie))
+        .catch((error) => res.status(400).send(error.message));
+});
+
 moviesRoutes.post("/", async (req, res) => {
     const {body} = req;
     const {error} = validate(body);
@@ -16,9 +22,9 @@ moviesRoutes.post("/", async (req, res) => {
     let movie = new Movie(body);
     movie = await movie.save();
     res.status(201).send(movie)
-})
+});
 
-moviesRoutes.put(":/id", async (req, res) => {
+moviesRoutes.put("/:id", async (req, res) => {
     const {error} = validate(req.body);
     if (error) return res.status(400).send(error);
 
@@ -28,6 +34,12 @@ moviesRoutes.put(":/id", async (req, res) => {
         }
     }, {new: true})
         .then((result) => res.send(result))
+        .catch((error) => res.status(400).send(error.message));
+});
+
+moviesRoutes.delete("/:id", (req, res) => {
+    Movie.findByIdAndDelete(req.params.id)
+        .then((deletedMovie) => res.send(deletedMovie))
         .catch((error) => res.status(400).send(error.message));
 })
 
