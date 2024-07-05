@@ -1,5 +1,6 @@
 import express from "express";
 import {Movie, validate} from "../models/movies.js";
+import {Genre} from "../models/genres.js";
 
 const moviesRoutes = express.Router();
 
@@ -16,10 +17,16 @@ moviesRoutes.get("/:id", (req, res) => {
 
 moviesRoutes.post("/", async (req, res) => {
     const {body} = req;
+    //console.log(body.genre);
+
     const {error} = validate(body);
     if (error) return res.status(400).send(error);
 
-    let movie = new Movie(body);
+    const genre = await Genre.findById(body.genreId);
+    if (!genre) return res.status(400).send("Invalid genre.");
+
+    delete body.genreId;
+    let movie = new Movie({...body, genre});
     movie = await movie.save();
     res.status(201).send(movie)
 });
