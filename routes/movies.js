@@ -28,7 +28,7 @@ moviesRoutes.post("/", async (req, res) => {
     delete body.genreId;
     let movie = new Movie({...body, genre});
     movie = await movie.save();
-    res.status(201).send(movie)
+    res.status(201).send(movie);
 });
 
 moviesRoutes.put("/:id", async (req, res) => {
