@@ -20,7 +20,7 @@ function validateRental(rental) {
     const schema = Joi.object({
         movie: Joi.string().required(),
         customer: Joi.string().required(),
-       /* startDate: Joi.date().required(),*/
+        startDate: Joi.date(),
         endDate: Joi.date().required(),
         returnDate: Joi.date().optional(),
         price: Joi.number().min(0.0).max(25).required(),
