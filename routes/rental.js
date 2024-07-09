@@ -2,8 +2,6 @@ import { Movie } from "../models/movies.js";
 import { Rental, validate } from "../models/rental.js";
 import { Customer } from "../models/customers.js";
 import express from "express";
-import fawn from "fawn";
-import mongoose from "mongoose";
 
 const rentalRoutes = express.Router();
 
