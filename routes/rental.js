@@ -1,8 +1,9 @@
-import express from "express";
 import { Movie } from "../models/movies.js";
 import { Rental, validate } from "../models/rental.js";
 import { Customer } from "../models/customers.js";
-import movies from "./movies.js";
+import express from "express";
+import fawn from "fawn";
+import mongoose from "mongoose";
 
 const rentalRoutes = express.Router();
 
@@ -18,6 +19,9 @@ rentalRoutes.get("/:id", (req, res) => {
 });
 
 rentalRoutes.post("/", async (req, res) => {
+  /*const session = await mongoose.startSession();
+  session.startTransaction();*/
+
   const { body } = req;
 
   const { error } = validate(body);
@@ -37,12 +41,20 @@ rentalRoutes.post("/", async (req, res) => {
     movie: fetchedMovie,
     customer: fetchedCustomer,
   });
-  rental = await rental.save();
 
-  fetchedMovie.numberInStock--;
-  fetchedMovie.save();
+  try {
+    rental = await rental.save(/*{ session }*/);
+    fetchedMovie.numberInStock--;
+    fetchedMovie.save(/*{ session }*/);
 
-  res.status(201).send(rental);
+    /*await session.commitTransaction();*/
+    res.status(201).send(rental);
+  } catch (e) {
+    /* await session.abortTransaction();*/
+    res.status(500).send(e.message);
+  } finally {
+    /*await session.endSession();*/
+  }
 });
 
 rentalRoutes.put("/:id", async (req, res) => {
@@ -72,7 +84,7 @@ rentalRoutes.put("/:id", async (req, res) => {
 });
 
 rentalRoutes.delete("/:id", (req, res) => {
-  Movie.findByIdAndDelete(req.params.id)
+  Rental.findByIdAndDelete(req.params.id)
     .then((deletedRental) => res.send(deletedRental))
     .catch((error) => res.status(400).send(error.message));
 });
