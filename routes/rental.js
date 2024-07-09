@@ -2,6 +2,7 @@ import { Movie } from "../models/movies.js";
 import { Rental, validate } from "../models/rental.js";
 import { Customer } from "../models/customers.js";
 import express from "express";
+import mongoose from "mongoose";
 
 const rentalRoutes = express.Router();
 
@@ -25,6 +26,9 @@ rentalRoutes.post("/", async (req, res) => {
   const { error } = validate(body);
   if (error) return res.status(400).send(error.details[0].message);
 
+  if (!mongoose.Types.ObjectId.isValid(body.movieId)) {
+    return res.status(400).send("");
+  }
   let fetchedMovie = await Movie.findById(body.movie);
   if (!fetchedMovie) return res.status(400).send("Movie not found.");
   if (fetchedMovie.numberInStock === 0)
