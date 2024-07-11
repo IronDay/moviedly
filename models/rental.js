@@ -1,11 +1,9 @@
 import mongoose from "mongoose";
-import objectId from "joi-objectid";
 import { Movie } from "./movies.js";
 import { Customer } from "./customers.js";
 import Joi from "joi";
 
 //use this validate the objectId send in a request
-Joi.objectId = objectId(Joi);
 
 const rentalSchema = new mongoose.Schema({
   movie: { type: Movie.schema, required: true },

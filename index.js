@@ -6,6 +6,12 @@ import customerRoute from "./routes/customer.js";
 import moviesRoutes from "./routes/movies.js";
 import rentalRoutes from "./routes/rental.js";
 
+import objectId from "joi-objectid";
+import Joi from "joi";
+
+//use this to validate the id send in a request
+Joi.objectId = objectId(Joi);
+
 const PORT = process.env.PORT || 3000;
 const MONGO_URL = process.env.MONGO_URL;
 

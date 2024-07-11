@@ -15,3 +15,10 @@ usersRouter.post("/", (req, res) => {
   const user = new Users({ ...req.body }).save();
   return res.send(user);
 });
+
+usersRouter.get("/:id", async (req, res) => {
+  const user = await Users.findById(req.params.id);
+  if (!user) return res.send("user not found");
+
+  res.send(user);
+});
