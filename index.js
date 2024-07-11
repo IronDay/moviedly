@@ -8,6 +8,7 @@ import rentalRoutes from "./routes/rental.js";
 
 import objectId from "joi-objectid";
 import Joi from "joi";
+import usersRoute from "./routes/users.js";
 
 //use this to validate the id send in a request
 Joi.objectId = objectId(Joi);
@@ -30,6 +31,7 @@ app.use("/api/genres", genresRoutes);
 app.use("/api/customers", customerRoute);
 app.use("/api/movies", moviesRoutes);
 app.use("/api/rental", rentalRoutes);
+app.use("/api/users", usersRoute);
 
 app.listen(
   PORT,
