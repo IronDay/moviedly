@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
+import config from "config";
 import genresRoutes from "./routes/genres.js";
 import homeRoutes from "./middlewares/home.js";
 import customerRoute from "./routes/customer.js";
@@ -18,6 +19,11 @@ const PORT = process.env.PORT || 3000;
 const MONGO_URL = process.env.MONGO_URL;
 
 const app = express();
+
+if (!config.get("jwtPrivateKey")) {
+  console.error("FATAL ERROR jwtPrivateKey is not defined.");
+  process.exit(1);
+}
 
 mongoose
   .connect(`${MONGO_URL}`)
