@@ -27,8 +27,7 @@ usersRoute.post("/", async (req, res) => {
     password: hashedPassword,
   }).save();
 
-  const token = jwt.sign({ _id: user._id }, config.get("jwtPrivateKey"));
-
+  const token = user.generateAuthToken();
   return res
     .header("x-auth-token", token)
     .send(_.pick(user, ["_id", "name", "email"]));
