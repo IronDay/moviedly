@@ -4,11 +4,17 @@ import { Users, validate } from "../models/users.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import config from "config";
+import auth from "../middlewares/auth.js";
 
 const usersRoute = express.Router();
 
 usersRoute.get("/", (req, res) => {
   return res.status(200).send(Users.find());
+});
+
+usersRoute.get("/me", auth, async (req, res) => {
+  const user = await Users.findById(req.user._id).select("-password");
+  return res.send(user);
 });
 
 usersRoute.post("/", async (req, res) => {
